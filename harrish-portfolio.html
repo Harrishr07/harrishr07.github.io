@@ -1,0 +1,1061 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HARRISH R - Designer & Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #3FAF5C;
+    --gold-light: #7FE39A;
+    --gold-dim: rgba(63,175,92,0.15);
+    --cream: #F2EDE4;
+    --bg: #0A0906;
+    --bg2: #111009;
+    --bg3: #1A1710;
+    --text: #E8E0D0;
+    --muted: #7A7060;
+    --border: rgba(63,175,92,0.18);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(63,175,92,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.18s ease;
+  }
+  body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 20px; height: 20px; background: var(--gold-light); }
+  body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width: 60px; height: 60px; opacity: 0.3; }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 28px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(10,9,6,0.95), transparent);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 20%, rgba(63,175,92,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 80% at 10% 90%, rgba(63,175,92,0.04) 0%, transparent 50%),
+      var(--bg);
+  }
+  .hero-line {
+    position: absolute;
+    top: 0; right: 200px;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--border) 30%, var(--border) 70%, transparent);
+    opacity: 0.5;
+  }
+  .hero-number {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 260px;
+    color: rgba(63,175,92,0.04);
+    line-height: 1;
+    user-select: none;
+    letter-spacing: -0.02em;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 14vw, 180px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .hero-name span {
+    display: block;
+    color: var(--gold);
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+  }
+  .hero-tagline {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.5vw, 28px);
+    color: var(--muted);
+    margin-top: 32px;
+    max-width: 480px;
+    line-height: 1.4;
+  }
+  .hero-cta {
+    margin-top: 48px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    position: relative;
+  }
+  .btn-primary {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px 36px;
+    background: var(--gold);
+    color: var(--bg);
+    border: none;
+    text-decoration: none;
+    cursor: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ghost {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    cursor: none;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-ghost:hover { color: var(--gold); }
+  .btn-ghost::after { content: '->'; transition: transform 0.3s; }
+  .btn-ghost:hover::after { transform: translateX(4px); }
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    right: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .scroll-indicator::after {
+    content: '';
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* SECTIONS */
+  section { padding: 120px 60px; position: relative; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 80px;
+  }
+  .section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ABOUT */
+  .about { background: var(--bg2); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-text p {
+    font-size: 16px;
+    color: rgba(232,224,208,0.7);
+    margin-bottom: 20px;
+    line-height: 1.9;
+  }
+  .about-text p strong {
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .about-portrait {
+    position: relative;
+    aspect-ratio: 3/4;
+    max-width: 380px;
+  }
+  .portrait-frame {
+    width: 100%;
+    height: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .portrait-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(63,175,92,0.08), transparent 65%);
+    z-index: 2;
+  }
+  .portrait-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .portrait-initials {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    color: rgba(63,175,92,0.15);
+    letter-spacing: 0.05em;
+  }
+  .portrait-accent {
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 80px; height: 80px;
+    border: 1px solid var(--gold);
+    opacity: 0.4;
+  }
+  .portrait-accent2 {
+    position: absolute;
+    top: -12px; left: -12px;
+    width: 50px; height: 50px;
+    border: 1px solid var(--gold);
+    opacity: 0.2;
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+    border: 1px solid var(--border);
+  }
+  .stat {
+    padding: 28px 24px;
+    background: var(--bg3);
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 44px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+  .project-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s ease;
+    text-decoration: none;
+    display: block;
+    cursor: none;
+  }
+  .project-card:hover { border-color: rgba(63,175,92,0.5); }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at var(--mx,50%) var(--my,50%), rgba(63,175,92,0.07), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .project-card:hover::before { opacity: 1; }
+  .project-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+  .project-category {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(24px, 3vw, 36px);
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .project-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+  .project-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.3s;
+  }
+  .project-card:hover .tag { border-color: rgba(63,175,92,0.3); color: rgba(63,175,92,0.7); }
+  .project-arrow {
+    position: absolute;
+    top: 40px; right: 48px;
+    font-size: 20px;
+    color: var(--muted);
+    transition: all 0.4s ease;
+  }
+  .project-card:hover .project-arrow { color: var(--gold); transform: translate(4px, -4px); }
+  .project-card.featured {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .project-card.featured .project-title { font-size: clamp(32px, 4vw, 52px); }
+  .project-visual {
+    aspect-ratio: 16/9;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .project-visual-inner {
+    width: 80%;
+    height: 70%;
+    border: 1px solid rgba(63,175,92,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 60px;
+    color: rgba(63,175,92,0.12);
+    letter-spacing: 0.1em;
+  }
+  .project-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 70%, rgba(63,175,92,0.08), transparent 60%);
+  }
+
+  /* SKILLS */
+  .skills { background: var(--bg2); }
+  .skills-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+  }
+  .skills-intro {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: rgba(232,224,208,0.6);
+    line-height: 1.6;
+  }
+  .skills-intro strong { color: var(--gold); font-style: normal; font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-bottom: 16px; font-weight: 400; }
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+  .skill-row:hover { background: rgba(63,175,92,0.03); }
+  .skill-name {
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    min-width: 140px;
+  }
+  .skill-bar-track {
+    flex: 1;
+    height: 1px;
+    background: rgba(63,175,92,0.1);
+    position: relative;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 0;
+  }
+  .skill-pct {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--gold);
+    min-width: 44px;
+    text-align: right;
+    letter-spacing: 0.05em;
+  }
+  .skills-tools {
+    margin-top: 60px;
+    padding-top: 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+  }
+  .tool-pill {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.3s;
+  }
+  .tool-pill:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+
+  /* CONTACT */
+  .contact {
+    text-align: center;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact::before {
+    content: 'CONTACT';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 280px;
+    color: rgba(63,175,92,0.03);
+    letter-spacing: 0.1em;
+    pointer-events: none;
+  }
+  .contact-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .contact-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 10vw, 110px);
+    line-height: 0.95;
+    color: var(--cream);
+    margin-bottom: 32px;
+    letter-spacing: 0.02em;
+  }
+  .contact-sub {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--muted);
+    margin-bottom: 60px;
+    max-width: 440px;
+    line-height: 1.5;
+  }
+  .contact-links {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .contact-link {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 14px 28px;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .contact-link:hover { color: var(--gold); border-color: var(--gold); background: var(--gold-dim); }
+  .contact-email {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 40px;
+    transition: color 0.3s;
+  }
+  .contact-email:hover { color: var(--gold-light); }
+  .contact-phone {
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 26px;
+    transition: color 0.3s;
+  }
+  .contact-phone:hover { color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    padding: 32px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-copy {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    color: rgba(63,175,92,0.4);
+  }
+
+  /* REVEAL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 24px 28px; }
+    .nav-links { display: none; }
+    section { padding: 80px 28px; }
+    .hero { padding: 0 28px 60px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-portrait { max-width: 260px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .skills-container { grid-template-columns: 1fr; }
+    .contact { padding: 80px 28px; }
+    footer { padding: 24px 28px; flex-direction: column; gap: 12px; text-align: center; }
+    .scroll-indicator { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">HR</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <div class="hero-number">01</div>
+
+  <div class="hero-eyebrow reveal">Designer & Developer</div>
+
+  <h1 class="hero-name reveal reveal-delay-1">HARRISH R</h1>
+
+  <p class="hero-tagline reveal reveal-delay-2">
+    Crafting digital experiences where aesthetic precision meets functional elegance.
+  </p>
+
+  <div class="hero-cta reveal reveal-delay-3">
+    <a href="#work" class="btn-primary">View Work</a>
+    <a href="#contact" class="btn-ghost">Get in Touch</a>
+  </div>
+
+  <div class="scroll-indicator">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-header">
+    <span class="section-num reveal">02</span>
+    <h2 class="section-title reveal reveal-delay-1">About Me</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p class="reveal">I'm <strong>HARRISH R</strong> - a Designer & Developer based in Erode, Tamil Nadu, India. I sit at the intersection of visual storytelling and technical execution, building things that are as beautiful as they are functional.</p>
+      <p class="reveal reveal-delay-1">Currently pursuing my <strong>3rd Year M.Sc Theoretical Computer Science</strong> at <strong>PSG College of Technology</strong>, Coimbatore - where I bridge academic rigour with real-world creative and engineering projects.</p>
+      <p class="reveal reveal-delay-2">My work spans brand identity, product design, and full-stack development - always with the same obsessive attention to detail and cinematic sense of atmosphere that defines everything I touch.</p>
+      <p class="reveal reveal-delay-3">I believe great design is never just surface-level. It's about <strong>understanding the why</strong> before crafting the how.</p>
+
+      <div class="about-stats reveal reveal-delay-3">
+        <div class="stat">
+          <div class="stat-num">3+</div>
+          <div class="stat-label">Years of Learning</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Curiosity</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-portrait reveal reveal-delay-2">
+      <div class="portrait-frame">
+        <img src="./HARRISH.jpg" alt="Portrait of Harrish R" class="portrait-photo">
+      </div>
+      <div class="portrait-accent"></div>
+      <div class="portrait-accent2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="section-header">
+    <span class="section-num reveal">03</span>
+    <h2 class="section-title reveal reveal-delay-1">Selected Work</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="projects-grid">
+    <!-- Featured project -->
+    <a href="https://github.com/Harrishr07/Survival-analysis" class="project-card featured reveal" target="_blank" rel="noopener noreferrer">
+      <div class="project-content">
+        <div class="project-num">01 / Featured</div>
+        <div class="project-category">Machine Learning | Healthcare</div>
+        <h3 class="project-title">Survival Analysis - Lung Cancer Prognosis</h3>
+        <p class="project-desc">Predicts patient prognosis of lung cancer using survival analysis techniques. Applies statistical models to clinical data to estimate survival probabilities.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">ML</span>
+          <span class="tag">Healthcare</span>
+        </div>
+        <div class="project-arrow">-></div>
+      </div>
+      <div class="project-visual">
+        <div class="project-visual-inner">SURVIVAL</div>
+      </div>
+    </a>
+
+    <!-- Project 2 -->
+    <a href="https://github.com/Harrishr07/Monte-Carlo-Retirement-Simulator" class="project-card reveal reveal-delay-1" target="_blank" rel="noopener noreferrer">
+      <div class="project-num">02</div>
+      <div class="project-category">Financial Modelling</div>
+      <h3 class="project-title">Monte Carlo Retirement Simulator</h3>
+      <p class="project-desc">Estimates how likely your retirement plan is to succeed using Monte Carlo simulation. Models thousands of market scenarios to provide probabilistic retirement forecasts.</p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Simulation</span>
+        <span class="tag">Finance</span>
+      </div>
+      <div class="project-arrow">-></div>
+    </a>
+
+    <!-- Project 3 -->
+    <a href="https://github.com/Harrishr07/Customer_Behaviour-Dashboard" class="project-card reveal reveal-delay-2" target="_blank" rel="noopener noreferrer">
+      <div class="project-num">03</div>
+      <div class="project-category">Data Analytics</div>
+      <h3 class="project-title">Customer Behaviour Dashboard</h3>
+      <p class="project-desc">Interactive dashboard analysing customer behaviour patterns. Visualises purchasing trends, segmentation insights, and actionable business metrics derived from real-world data.</p>
+      <div class="project-tags">
+        <span class="tag">Jupyter Notebook</span>
+        <span class="tag">Data Analysis</span>
+        <span class="tag">Visualisation</span>
+      </div>
+      <div class="project-arrow">-></div>
+    </a>
+
+    <!-- Project 4 -->
+    <a href="https://github.com/Harrishr07/Deadlock-Avoidance-using-Bankers-Algorithm" class="project-card reveal reveal-delay-3" target="_blank" rel="noopener noreferrer">
+      <div class="project-num">04</div>
+      <div class="project-category">Systems Programming</div>
+      <h3 class="project-title">Deadlock Avoidance - Banker's Algorithm</h3>
+      <p class="project-desc">C++ implementation of the Banker's Algorithm for deadlock avoidance in operating systems. Safely allocates resources to processes while preventing system deadlocks.</p>
+      <div class="project-tags">
+        <span class="tag">C++</span>
+        <span class="tag">OS</span>
+        <span class="tag">Algorithms</span>
+      </div>
+      <div class="project-arrow">-></div>
+    </a>
+
+    <!-- Project 5 -->
+    <a href="https://github.com/Harrishr07/Customer-Segmentation" class="project-card reveal reveal-delay-1" target="_blank" rel="noopener noreferrer">
+      <div class="project-num">05</div>
+      <div class="project-category">Data Science</div>
+      <h3 class="project-title">Customer Segmentation</h3>
+      <p class="project-desc">Clusters mall customers into distinct segments using unsupervised learning on CSV data. Reveals spending patterns and demographic groupings to drive business strategy.</p>
+      <div class="project-tags">
+        <span class="tag">R</span>
+        <span class="tag">Clustering</span>
+        <span class="tag">Data Science</span>
+      </div>
+      <div class="project-arrow">-></div>
+    </a>
+
+    <!-- Project 6 -->
+    <a href="https://github.com/Harrishr07/Source-goal-planner" class="project-card reveal reveal-delay-2" target="_blank" rel="noopener noreferrer">
+      <div class="project-num">06</div>
+      <div class="project-category">Web Application</div>
+      <h3 class="project-title">Source Goal Planner</h3>
+      <p class="project-desc">A budget planning web application that helps users set financial goals, track income sources, and manage spending to achieve long-term financial objectives.</p>
+      <div class="project-tags">
+        <span class="tag">PHP</span>
+        <span class="tag">Budget</span>
+        <span class="tag">Planning</span>
+      </div>
+      <div class="project-arrow">-></div>
+    </a>
+
+    <!-- Project 7 -->
+    <a href="https://github.com/Harrishr07" class="project-card reveal reveal-delay-3" target="_blank" rel="noopener noreferrer">
+      <div class="project-num">07</div>
+      <div class="project-category">Data Science | Predictive Modelling</div>
+      <h3 class="project-title">Churn Prediction - ML Pipeline</h3>
+      <p class="project-desc">End-to-end machine learning pipeline to predict customer churn using classification algorithms. Includes data preprocessing, feature engineering, model training, and evaluation metrics.</p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Scikit-learn</span>
+        <span class="tag">ML</span>
+      </div>
+      <div class="project-arrow">-></div>
+    </a>
+
+    <!-- Project 8 -->
+    <a href="https://github.com/Harrishr07" class="project-card reveal reveal-delay-4" target="_blank" rel="noopener noreferrer">
+      <div class="project-num">08</div>
+      <div class="project-category">Full Stack | Web App</div>
+      <h3 class="project-title">Expense Tracker - Personal Finance</h3>
+      <p class="project-desc">A full-stack personal finance web application to log daily expenses, categorise spending, and generate visual reports for better financial awareness and planning.</p>
+      <div class="project-tags">
+        <span class="tag">JavaScript</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">Charts</span>
+      </div>
+      <div class="project-arrow">-></div>
+    </a>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="section-header">
+    <span class="section-num reveal">04</span>
+    <h2 class="section-title reveal reveal-delay-1">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-container">
+    <div class="skills-intro reveal">
+      <strong>My Toolkit</strong>
+      "Design without code is a sketch. Code without design is a draft. I do both."
+    </div>
+
+    <div class="skills-grid reveal reveal-delay-1" id="skillGrid">
+      <div class="skill-row" data-pct="92">
+        <span class="skill-name">UI / UX Design</span>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+        <span class="skill-pct">92%</span>
+      </div>
+      <div class="skill-row" data-pct="88">
+        <span class="skill-name">Frontend Dev</span>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+        <span class="skill-pct">88%</span>
+      </div>
+      <div class="skill-row" data-pct="80">
+        <span class="skill-name">React / Next.js</span>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+        <span class="skill-pct">80%</span>
+      </div>
+      <div class="skill-row" data-pct="84">
+        <span class="skill-name">Machine Learning</span>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+        <span class="skill-pct">84%</span>
+      </div>
+      <div class="skill-row" data-pct="70">
+        <span class="skill-name">Backend / APIs</span>
+        <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
+        <span class="skill-pct">70%</span>
+      </div>
+    </div>
+
+    <div class="skills-tools reveal reveal-delay-2">
+      <span class="tool-pill">Figma</span>
+      <span class="tool-pill">React</span>
+      <span class="tool-pill">Next.js</span>
+      <span class="tool-pill">Tailwind</span>
+      <span class="tool-pill">TypeScript</span>
+      <span class="tool-pill">Node.js</span>
+      <span class="tool-pill">After Effects</span>
+      <span class="tool-pill">Photoshop</span>
+      <span class="tool-pill">Git</span>
+      <span class="tool-pill">MongoDB</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-eyebrow reveal">Let's create together</div>
+  <h2 class="contact-headline reveal reveal-delay-1">
+    GOT AN IDEA?<br>LET'S TALK.
+  </h2>
+  <p class="contact-sub reveal reveal-delay-2">
+    Whether it's a brand, a product, or something entirely new - I'm here to make it real.
+  </p>
+  <a href="mailto:harrishr07@gmail.com" class="contact-email reveal reveal-delay-2">harrishr07@gmail.com</a>
+  <a href="tel:+919487021901" class="contact-phone reveal reveal-delay-2">+91 9487021901</a>
+  <div class="contact-links reveal reveal-delay-3">
+    <a href="https://github.com/Harrishr07" class="contact-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://www.linkedin.com/in/harrishr07/" class="contact-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a class="btn-primary" href="mailto:harrishr07@gmail.com">Mail Me</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">(c) 2026 Harrish R - All rights reserved</span>
+  <span class="footer-logo">HR</span>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Project card mouse parallax glow
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width) * 100;
+      const y = ((e.clientY - r.top) / r.height) * 100;
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+
+  // Intersection observer for reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Animate skill bars
+        if (entry.target.id === 'skillGrid' || entry.target.closest('#skillGrid')) {
+          animateSkills();
+        }
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Hero immediate reveal
+  document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), i * 150 + 200);
+  });
+
+  // Skill bar animation
+  let skillsAnimated = false;
+  function animateSkills() {
+    if (skillsAnimated) return;
+    skillsAnimated = true;
+    document.querySelectorAll('.skill-row').forEach((row, i) => {
+      const pct = row.dataset.pct;
+      const fill = row.querySelector('.skill-bar-fill');
+      setTimeout(() => {
+        fill.style.width = pct + '%';
+      }, i * 80);
+    });
+  }
+
+  // Observe skill section
+  const skillSection = document.getElementById('skillGrid');
+  if (skillSection) {
+    const skillObs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) animateSkills();
+    }, { threshold: 0.3 });
+    skillObs.observe(skillSection);
+  }
+</script>
+</body>
+</html>
+
